@@ -357,3 +357,96 @@ This is extremely important for your future implementation
 | Project Version | Version/snapshot of that asset             |
 | Portfolio       | Overall collection/metrics across projects |
 
+---
+
+## 15. What types of SBOM/BOM can we upload?
+
+The two important standards you asked about are:
+
+## CycloneDX
+
+    CycloneDX JSON
+    CycloneDX XML
+
+This is what your Syft command generated:
+
+    vm-sbom.json
+    
+    with: "bomFormat": "CycloneDX"
+
+Dependency-Track's current terminology documentation describes CycloneDX as its BOM format, 
+and its CI/CD documentation specifically uses CycloneDX BOMs.
+
+## SPDX
+
+SPDX is another SBOM standard supported by Dependency-Track historically and in its BOM ingestion capabilities.
+
+Dependency-Track has supported both CycloneDX and SPDX BOMs.
+
+    For our project, we'll standardize on: CycloneDX JSON
+    
+    because Syft can generate it directly and it integrates cleanly with Dependency-Track.
+
+---
+
+## 16. The three SBOM upload methods you should know
+
+There are three ways you'll encounter in your DevSecOps work.
+
+## Method 1 — UI upload
+    
+    Browser
+     ↓
+    Dependency-Track UI
+     ↓
+    Upload BOM
+
+Good for:
+
+    learning
+    manual testing
+    one-off vendor SBOMs
+    troubleshooting
+
+
+## Method 2 — REST API / cURL
+
+    curl
+     ↓
+    POST /api/v1/bom
+     ↓
+    Dependency-Track
+
+Good for:
+
+    automation
+    scripts
+    VM SBOM upload
+    systems without plugins
+
+## NOTE:
+
+    1. The POST method can send the BOM without Base64 encoding. 
+    2. Dependency-Track also supports a PUT method where the BOM is Base64 encoded inside JSON.
+---
+## Method 3 — CI/CD integration
+
+For your future architecture:
+
+    GitHub Actions
+          ↓
+    Dependency-Track GitHub Action
+          ↓
+    Dependency-Track
+    
+and:
+
+    Jenkins
+       ↓
+    Dependency-Track Jenkins Plugin
+       ↓
+    Dependency-Track
+
+Dependency-Track specifically recommends its Jenkins plugin for Jenkins and its GitHub Action for GitHub workflows.
+
+---
