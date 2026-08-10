@@ -339,4 +339,10 @@ This connects directly to what we discussed earlier.
     Trivy
      ↓
     Security findings
-## 
+    
+## Syft vs Dtrack vs Trivy:
+
+    Syft       → Inventory
+    Dependency-Track → Continuous analysis
+    Trivy      → Security scanning
+---
