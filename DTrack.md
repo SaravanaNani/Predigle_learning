@@ -356,10 +356,62 @@ This is extremely important for your future implementation
 | Project         | Asset/application being tracked            |
 | Project Version | Version/snapshot of that asset             |
 | Portfolio       | Overall collection/metrics across projects |
+---
+
+## 15. What is a Classifier?
+
+A Classifier describes the nature/type of the project being tracked.
+
+Think of it as: "What kind of thing is this?"
+
+For example, depending on the Dependency-Track version/UI, you may encounter classifications such as:
+    
+    APPLICATION
+    CONTAINER
+    DEVICE
+    FIRMWARE
+    FILE
+    FRAMEWORK
+    LIBRARY
+    OPERATING_SYSTEM
+
+The exact available values should be taken from your 4.13 UI/API rather than us inventing a classification.
+
+For example
+
+A normal Flask application:
+    
+    Project:
+    helpdesk-api
+    
+    Classifier:
+    APPLICATION
+    
+A Docker image:
+    
+    Project:
+    helpdesk-api-image
+    
+    Classifier:
+    CONTAINER
+
+A VM/OS inventory is conceptually closer to an `infrastructure/OS` asset than a normal application.
+
+## Important: 
+
+don't randomly select APPLICATION for everything just because it is available. 
+For your enterprise design, we should decide a consistent classifier strategy for:
+
+    Repositories
+    Docker images
+    VMs
+    Libraries
+
+## The classifier is metadata; it doesn't determine whether vulnerability analysis happens.
 
 ---
 
-## 15. What types of SBOM/BOM can we upload?
+## 16. What types of SBOM/BOM can we upload?
 
 The two important standards you asked about are:
 
@@ -389,7 +441,7 @@ Dependency-Track has supported both CycloneDX and SPDX BOMs.
 
 ---
 
-## 16. The three SBOM upload methods you should know
+## 17. The three SBOM upload methods you should know
 
 There are three ways you'll encounter in your DevSecOps work.
 
