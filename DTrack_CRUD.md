@@ -325,3 +325,22 @@ Enterprise recommendation
     Prefer pre-created projects + restricted BOM upload permissions where your onboarding process can manage project creation separately.
     
     Use autoCreate when your enterprise workflow deliberately wants CI/CD to create projects automatically.
+---
+# SBOM Extracting: 
+
+### Script to SBOM INSTALLATION and EXTRACTION:
+
+
+### COMMAND to RUN on VM to test - SBOM extraction of host
+    
+    sudo ~/tools/bin/syft dir:/usr \
+      --exclude './var/lib/docker/**' \
+      --exclude './var/lib/containerd/**' \
+      -o cyclonedx-json@1.6=/root/tools/test-host-sbom.json
+      
+### COMMAND TO FECTH ALL HOST SBOM EXCEPT DOCKER     
+    sudo ~/tools/bin/syft dir:/ \
+      --exclude './var/lib/docker/**' \
+      --exclude './var/lib/containerd/**' \
+      -o cyclonedx-json@1.6=vm-host-sbom.json
+      
