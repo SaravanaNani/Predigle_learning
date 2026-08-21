@@ -440,6 +440,96 @@ Then I would prefer:
     Trivy
           ↓
     SBOM
+---
+# Project Complete picture currently looks like this
 
-rather than rebuilding the image in GitHub Actions. Why?
-Because you want to scan the exact artifact that is deployed.
+---
+
+                         BASE IMAGE
+                             |
+                   base.dockerfile
+                             |
+                             v
+                  cloudbuild-base.yaml
+                             |
+                             v
+                       Base Image
+                             |
+                             v
+                     Artifact Registry
+                             |
+                             |
+                             v
+                     Root Dockerfile
+                             |
+                  +----------+----------+
+                  |                     |
+                  v                     v
+     cloudbuild-deployment.yaml   cloudbuild.yaml
+                  |                     |
+                  v                     v
+              BUILD/PUSH          BUILD/PUSH
+                                        |
+                                        v
+                                   Deploy VM
+                                        |
+                                        v
+                               docker compose pull
+                                        |
+                                        v
+                              Containers / Services
+
+And the orchestration:
+       
+                  cloudbuild.workflow.yaml
+                           |
+                           v
+                    cloudbuild.yaml
+                           |
+                    BUILD/PUSH/DEPLOY
+                           |
+                    wait until done
+                           |
+                           v
+                 cloudbuild.consumer.yaml
+                           |
+                           v
+                    Consumer services
+
+Meanwhile:
+
+    cloudbuild.local.yml
+            |
+            v
+    Local Docker Compose
+            |
+            v
+    runner
+            |
+            v
+    run_precog_consumer
+---
+
+### There are two different concepts here:
+
+Build configuration
+        
+        cloudbuild-base.yaml
+        cloudbuild-deployment.yaml
+        cloudbuild.yaml
+        cloudbuild.workflow.yaml
+        cloudbuild.consumer.yaml
+
+These tell Cloud Build what to do.
+
+Container orchestration
+
+    docker-compose.yml
+    docker-compose.precog_consumer.yml
+    docker-compose.bot.optimizer.yml
+    docker-compose.model_trainer.yml
+    docker-compose.grpc.yml
+
+These tell Docker on the VM what containers/services to run.
+
+That's why you have so many YAML files. They aren't all doing the same job.
